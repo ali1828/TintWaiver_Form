@@ -1,0 +1,240 @@
+﻿
+@{
+    ViewBag.Title = "Admin Dashboard";
+    Layout = "~/Views/Shared/_LayoutLogined.cshtml";
+    UserApplication.Models.ApplicationDbContext db = new UserApplication.Models.ApplicationDbContext();
+    var usersrole = db.Roles.Where(r => r.Name == "Users").FirstOrDefault();
+    var lastregistration = db.Users.Where(r => r.Roles.Where(j => j.RoleId == usersrole.Id).FirstOrDefault().RoleId == usersrole.Id).OrderByDescending(o=>o.RegistrationDate).ToList().Take(5);
+}
+<script>
+    var m1=@db.Users.Where(r => r.Roles.Where(j => j.RoleId == usersrole.Id).FirstOrDefault().RoleId == usersrole.Id).Where(u=>u.RegistrationDate.Month==1 && u.RegistrationDate.Year==DateTime.Today.Year).Count() ;
+    var m2=@db.Users.Where(r => r.Roles.Where(j => j.RoleId == usersrole.Id).FirstOrDefault().RoleId == usersrole.Id).Where(u=>u.RegistrationDate.Month==2 && u.RegistrationDate.Year==DateTime.Today.Year).Count() ;
+    var m3=@db.Users.Where(r => r.Roles.Where(j => j.RoleId == usersrole.Id).FirstOrDefault().RoleId == usersrole.Id).Where(u=>u.RegistrationDate.Month==3 && u.RegistrationDate.Year==DateTime.Today.Year).Count() ;
+    var m4=@db.Users.Where(r => r.Roles.Where(j => j.RoleId == usersrole.Id).FirstOrDefault().RoleId == usersrole.Id).Where(u=>u.RegistrationDate.Month==4 && u.RegistrationDate.Year==DateTime.Today.Year).Count() ;
+    var m5=@db.Users.Where(r => r.Roles.Where(j => j.RoleId == usersrole.Id).FirstOrDefault().RoleId == usersrole.Id).Where(u=>u.RegistrationDate.Month==5 && u.RegistrationDate.Year==DateTime.Today.Year).Count() ;
+    var m6=@db.Users.Where(r => r.Roles.Where(j => j.RoleId == usersrole.Id).FirstOrDefault().RoleId == usersrole.Id).Where(u=>u.RegistrationDate.Month==6 && u.RegistrationDate.Year==DateTime.Today.Year).Count();
+    var m7=@db.Users.Where(r => r.Roles.Where(j => j.RoleId == usersrole.Id).FirstOrDefault().RoleId == usersrole.Id).Where(u=>u.RegistrationDate.Month==7 && u.RegistrationDate.Year==DateTime.Today.Year).Count() ;
+    var m8=@db.Users.Where(r => r.Roles.Where(j => j.RoleId == usersrole.Id).FirstOrDefault().RoleId == usersrole.Id).Where(u=>u.RegistrationDate.Month==8 && u.RegistrationDate.Year==DateTime.Today.Year).Count() ;
+    var m9=@db.Users.Where(r => r.Roles.Where(j => j.RoleId == usersrole.Id).FirstOrDefault().RoleId == usersrole.Id).Where(u=>u.RegistrationDate.Month==9 && u.RegistrationDate.Year==DateTime.Today.Year).Count() ;
+    var m10=@db.Users.Where(r => r.Roles.Where(j => j.RoleId == usersrole.Id).FirstOrDefault().RoleId == usersrole.Id).Where(u=>u.RegistrationDate.Month==10 && u.RegistrationDate.Year==DateTime.Today.Year).Count() ;
+    var m11=@db.Users.Where(r => r.Roles.Where(j => j.RoleId == usersrole.Id).FirstOrDefault().RoleId == usersrole.Id).Where(u=>u.RegistrationDate.Month==11 && u.RegistrationDate.Year==DateTime.Today.Year).Count() ;
+    var m12=@db.Users.Where(r => r.Roles.Where(j => j.RoleId == usersrole.Id).FirstOrDefault().RoleId == usersrole.Id).Where(u=>u.RegistrationDate.Month==12 && u.RegistrationDate.Year==DateTime.Today.Year).Count() ;
+
+</script>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Dashboard</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-plus fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">@db.Users.Where(r => r.Roles.Where(j => j.RoleId == usersrole.Id).FirstOrDefault().RoleId == usersrole.Id).Where(u=>u.RegistrationDate.Month==DateTime.Now.Month).Count()</div>
+                            <div style="position: absolute;right: 2px;">New Users This Month</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="~/Dashboard/NewUsers">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-users fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">@db.Users.Where(r => r.Roles.Where(j => j.RoleId == usersrole.Id).FirstOrDefault().RoleId == usersrole.Id).Count()</div>
+                            <div>Total Users</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="~/Dashboard/AllUsers">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-yellow">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-user fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">@db.Users.Where(r => r.Roles.Where(j => j.RoleId == usersrole.Id).FirstOrDefault().RoleId == usersrole.Id).Where(u => u.EmailConfirmed == false).Count()</div>
+                            <div>Unconfirmed Users</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="~/Dashboard/UncorfirmedUsers">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-red">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-times-circle-o fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">@db.Users.Where(r => r.Roles.Where(j => j.RoleId == usersrole.Id).FirstOrDefault().RoleId == usersrole.Id).Where(u => u.Banned==true).Count()</div>
+                            <div>Banned Users</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="~/Dashboard/BannedUsers">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="panel panel-default" style="overflow: auto;">
+                <div class="panel-heading">
+                    <i class="fa fa-bar-chart-o fa-fw"></i> Registration History
+                  
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div id="Registration-Charts"></div>
+                    <script>
+                        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  Morris.Line({
+      element: 'Registration-Charts',
+      data: [
+        { y: '@DateTime.Today.Year-01', a: m1 },
+        { y: '@DateTime.Today.Year-02', a: m2},
+        { y: '@DateTime.Today.Year-03', a: m3},
+        { y: '@DateTime.Today.Year-04', a: m4},
+        { y: '@DateTime.Today.Year-05', a: m5},
+        { y: '@DateTime.Today.Year-06', a: m6 },
+        { y: '@DateTime.Today.Year-07', a: m7},
+        { y: '@DateTime.Today.Year-08', a: m8},
+        { y: '@DateTime.Today.Year-09', a: m9},
+        { y: '@DateTime.Today.Year-10', a: m10},
+        { y: '@DateTime.Today.Year-11', a: m11},
+        { y: '@DateTime.Today.Year-12', a: m12}
+      ],
+      xkey: 'y',
+      ykeys: ['a'],
+      labels: ['New Users'],
+      xLabelFormat: function (x) {  var month = months[x.getMonth()];  return month;},
+      dateFormat: function (x) {var month = months[new Date(x).getMonth()];  return month; }
+  });
+                    </script>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+          
+    
+        </div>
+        <!-- /.col-lg-8 -->
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bell fa-fw"></i> Latset Registrations
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+<ul class="list-unstyled">
+    @foreach (var reg in lastregistration) { 
+    <li>@reg.UserName <i>@if (reg.RegistrationDate.Year == DateTime.Now.Year && reg.RegistrationDate.Month == DateTime.Now.Month && reg.RegistrationDate.Day == DateTime.Now.Day)
+    {
+        var elapsedminute = DateTime.Now - reg.RegistrationDate;
+        if (elapsedminute.TotalHours >= 1)
+        {
+            <span>@elapsedminute.TotalHours.ToString("0") Hours ago</span>
+        }
+        else
+        {
+            if (elapsedminute.TotalMinutes.ToString("0") == "0")
+            {
+                if (elapsedminute.TotalSeconds.ToString("0") == "0")
+                {
+                    <span>Just Now</span>
+                }
+                else if (elapsedminute.TotalSeconds.ToString("0") == "1")
+                {
+                    <span>A second ago</span>
+                }
+                else
+                {
+                    <span>@elapsedminute.TotalSeconds.ToString("0") secondes ago </span>
+                }
+
+            }
+            else
+            {
+                if (elapsedminute.TotalMinutes.ToString("0") == "1")
+                {
+                    <span>A minute ago</span>
+                }
+                else
+                {
+                    <span>@elapsedminute.TotalMinutes.ToString("0") minutes ago</span>}
+            }
+
+        }
+    }
+    else if (reg.RegistrationDate.Year == DateTime.Now.Year && reg.RegistrationDate.Month == DateTime.Now.Month && reg.RegistrationDate.Day == DateTime.Now.Day - 1)
+    {
+        <span>Yesterday at @reg.RegistrationDate.Hour:@reg.RegistrationDate.Minute.ToString("00") </span>
+    }
+    else
+    {
+        if (reg.RegistrationDate.Year == DateTime.Now.Year)
+        {
+            <span> @reg.RegistrationDate.Day @reg.RegistrationDate.ToString("MMMM") at @reg.RegistrationDate.Hour:@reg.RegistrationDate.Minute.ToString("00") </span>
+        }
+        else
+        {
+            <span> @reg.RegistrationDate </span>
+        }
+    }</i></li>
+    }
+</ul>
+                    <a href="~/Dashboard/AllUsers" class="btn btn-default btn-block">View All</a>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+           
+        </div>
+        <!-- /.col-lg-4 -->
+    </div>
+    <!-- /.row -->

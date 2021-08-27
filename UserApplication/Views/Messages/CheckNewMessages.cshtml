@@ -1,0 +1,139 @@
+﻿@model IEnumerable<UserApplication.Models.Messages>
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "CheckNewMessages";
+    Layout = "";
+    var userid = User.Identity.GetUserId();
+    UserApplication.Models.ApplicationDbContext db = new UserApplication.Models.ApplicationDbContext();
+}
+
+@if (Model != null)
+{
+    foreach (var msg in Model)
+    {
+        if (msg.From == userid)
+        {
+            <li class="sent" id="lastmsg">
+                @if (msg.Sender.Profile == null)
+                {
+                    <img src="~/UsersProfile/profile.png" alt="">
+                }
+                else
+                {
+                    <img src="~/UsersProfile/@msg.Sender.Profile" alt="">
+                }
+
+                <p>
+                    @msg.MessageBody<br />
+                    <span style="float:right;margin-right: 15px;color: #ff5353;">
+                        @if (msg.SendTime.Year == DateTime.Now.Year && msg.SendTime.Month == DateTime.Now.Month && msg.SendTime.Day == DateTime.Now.Day)
+                        {
+                            var elapsedminute = DateTime.Now - msg.SendTime;
+                            if (elapsedminute.TotalHours >= 1)
+                            {
+                                <span>@elapsedminute.TotalHours.ToString("0") hours ago</span>
+                            }
+                            else
+                            {
+                                if (elapsedminute.TotalMinutes.ToString("0") == "0")
+                                {
+                                    if (elapsedminute.TotalSeconds.ToString("0") == "0")
+                                    {
+                                        <span>Just Now</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@elapsedminute.TotalSeconds.ToString("0") secondes ago</span>
+                                    }
+
+                                }
+                                else
+                                {
+
+                                    <span>@elapsedminute.TotalMinutes.ToString("0") minutes ago</span>}
+
+                            }
+                        }
+                        else
+                        {
+                            if (msg.SendTime.Year == DateTime.Now.Year)
+                            {
+                                <span>@msg.SendTime.Day @msg.SendTime.ToString("MMMM") at @msg.SendTime.Hour.ToString("00"):@msg.SendTime.Minute.ToString("00")</span>
+                            }
+                            else
+                            {
+                                <span>@msg.SendTime</span>
+                            }
+                        }
+
+                    </span>
+                </p>
+            </li>
+
+        }
+        else
+        {
+            <li class="replies" id="lastmsg">
+                @if (msg.Sender.Profile == null)
+                {
+                    <img src="~/UsersProfile/profile.png" alt="">
+                }
+                else
+                {
+                    <img src="~/UsersProfile/@msg.Sender.Profile" alt="">
+                }
+                <p>
+                    @msg.MessageBody<br />
+                    <span style="float:right;margin-right: 15px;color: #ff5353;">
+                        @if (msg.SendTime.Year == DateTime.Now.Year && msg.SendTime.Month == DateTime.Now.Month && msg.SendTime.Day == DateTime.Now.Day)
+                        {
+                            var elapsedminute = DateTime.Now - msg.SendTime;
+                            if (elapsedminute.TotalHours >= 1)
+                            {
+                                <span>@elapsedminute.TotalHours.ToString("0") hours ago</span>
+                            }
+                            else
+                            {
+                                if (elapsedminute.TotalMinutes.ToString("0") == "0")
+                                {
+                                    if (elapsedminute.TotalSeconds.ToString("0") == "0")
+                                    {
+                                        <span>Just Now</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@elapsedminute.TotalSeconds.ToString("0") secondes ago</span>
+                                    }
+
+                                }
+                                else
+                                {
+
+                                    <span>@elapsedminute.TotalMinutes.ToString("0") minutes ago</span>}
+
+                            }
+                        }
+                        else
+                        {
+                            if (msg.SendTime.Year == DateTime.Now.Year)
+                            {
+                                <span>@msg.SendTime.Day @msg.SendTime.ToString("MMMM") at @msg.SendTime.Hour.ToString("00"):@msg.SendTime.Minute.ToString("00")</span>
+                            }
+                            else
+                            {
+                                <span>@msg.SendTime</span>
+                            }
+                        }
+
+                    </span>
+                </p>
+
+            </li>
+        }
+    }
+}
+else
+{
+
+}

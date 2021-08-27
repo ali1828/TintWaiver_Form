@@ -1,0 +1,294 @@
+﻿@model IEnumerable<UserApplication.Models.Messages>
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "RealTime Chat Box";
+    Layout = "~/Views/Shared/_LayoutLogined.cshtml";
+    var userid = User.Identity.GetUserId();
+}
+<ol class="breadcrumb">
+    @if (User.IsInRole("Admin"))
+    {
+        <li><a href="~/Dashboard/Index">Dashboard</a></li>
+    }
+    else
+    {
+        <li><a href="~/Users/Index">Dashboard</a></li>
+
+    }    <li><a href="~/Messages/Index">Messages</a></li>
+    <li class="active">RealTime Chat Box</li>
+</ol>
+<hr />
+<div class="panel panel-info martop">
+    <div class="panel-heading">
+        <h3 class="panel-title">ChatBox</h3>
+    </div>
+    <div class="panel-body">
+        @if (Model.Count() <= 0)
+        {
+            <div class="text-center">
+                <span class="label label-default">Send Your First Message To this User Now !</span>
+            </div>
+        }
+        <div class="messages">
+            <ul id="AllMessages">
+                @foreach (var msg in Model)
+                {
+                    if (msg.From == userid)
+                    {
+                        <li class="sent" id="lastmsg">
+                            @if (msg.Sender.Profile == null)
+                            {
+                                <img src="~/UsersProfile/profile.png" alt="">
+                            }
+                            else
+                            {
+                                <img src="~/UsersProfile/@msg.Sender.Profile" alt="">
+                            }
+
+                            <p>
+                                @msg.MessageBody
+                                <br />
+                                <span style="float:right;margin-right: 15px;color: #ff5353;">
+                                   @if (msg.SendTime.Year == DateTime.Now.Year && msg.SendTime.Month == DateTime.Now.Month && msg.SendTime.Day == DateTime.Now.Day)
+                                   {
+                                       var elapsedminute = DateTime.Now - msg.SendTime;
+                                       if (elapsedminute.TotalHours >= 1)
+                                       {
+                                        <span>@elapsedminute.TotalHours.ToString("0") hours ago</span>
+                                       }
+                                       else
+                                       {
+                                           if (elapsedminute.TotalMinutes.ToString("0") == "0")
+                                           {
+                                               if (elapsedminute.TotalSeconds.ToString("0") == "0")
+                                               {
+                                                <span>Just Now</span>
+                                               }
+                                               else
+                                               {
+                                                <span>@elapsedminute.TotalSeconds.ToString("0") secondes ago</span>
+                                               }
+
+                                           }
+                                           else
+                                           {
+
+                                            <span>@elapsedminute.TotalMinutes.ToString("0") minutes ago</span>}
+
+                                       }
+                                   }
+                                   else
+                                   {
+                                       if (msg.SendTime.Year == DateTime.Now.Year)
+                                       {
+                                        <span>@msg.SendTime.Day @msg.SendTime.ToString("MMMM") at @msg.SendTime.Hour.ToString("00"):@msg.SendTime.Minute.ToString("00")</span>
+                                       }
+                                       else
+                                       {
+                                        <span>@msg.SendTime</span>
+                                       }
+                                   }
+
+
+                                    @if (msg.Vu)
+                    {<span style="color: #fffa00;">Viewed</span>}
+                                </span>
+                            </p>
+                        </li>
+
+                    }
+                    else
+                    {
+                        <li class="replies" id="lastmsg">
+                            
+                            @if (msg.Sender.Profile == null)
+                            {
+                                <img src="~/UsersProfile/profile.png" alt="">
+                            }
+                            else
+                            {
+                                <img src="~/UsersProfile/@msg.Sender.Profile" alt="">
+                            }
+                            
+                            <p>
+                                @msg.MessageBody<br />
+                                <span style="float:right;margin-right: 15px;color: #ff5353;">
+                                    @if (msg.SendTime.Year == DateTime.Now.Year && msg.SendTime.Month == DateTime.Now.Month && msg.SendTime.Day == DateTime.Now.Day)
+                                    {
+                                        var elapsedminute = DateTime.Now - msg.SendTime;
+                                        if (elapsedminute.TotalHours >= 1)
+                                        {
+                                            <span>@elapsedminute.TotalHours.ToString("0") hours ago</span>
+                                        }
+                                        else
+                                        {
+                                            if (elapsedminute.TotalMinutes.ToString("0") == "0")
+                                            {
+                                                if (elapsedminute.TotalSeconds.ToString("0") == "0")
+                                                {
+                                                    <span>Just Now</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>@elapsedminute.TotalSeconds.ToString("0") secondes ago</span>
+                                                }
+
+                                            }
+                                            else
+                                            {
+
+                                                <span>@elapsedminute.TotalMinutes.ToString("0") minutes ago</span>}
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (msg.SendTime.Year == DateTime.Now.Year)
+                                        {
+                                            <span>@msg.SendTime.Day @msg.SendTime.ToString("MMMM") at @msg.SendTime.Hour.ToString("00"):@msg.SendTime.Minute.ToString("00")</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@msg.SendTime</span>
+                                        }
+                                    }
+
+                                </span>
+                            </p>
+
+
+                        </li>
+                    }
+                }
+
+
+
+
+            </ul>
+        </div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="message-input">
+                <div class="wrap">
+                    @Html.TextArea("MessageBody", new { @class = "textarea", @placeholder = "Saisissez votre message ...", @Required = "required" })
+                    <!-- <textarea rows="1" placeholder="Saisissez votre message ..."></textarea>-->
+                    <button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<a href="~/Messages/Index" class="btn btn-warning">Retour</a> | @Html.ActionLink("Actualiser", null, null, new { @class = "btn btn-success" })
+<br/>
+<br />
+<audio id="myAudio">
+    <source src="~/Sounds/groupenotif.ogg" type="audio/ogg">
+</audio>
+<script>
+    $(document).ready(function(){
+        setInterval(function () {
+            
+            $.get("@Url.Action("CheckNewMessages/"+ Session["IdofMessage"].ToString(), "Messages")", function (data) {
+                if (data.length > 10) {
+                    document.getElementById('AllMessages').innerHTML = document.getElementById('AllMessages').innerHTML + data; scrolltolastmessage(); var x = document.getElementById("myAudio");x.play();
+                }
+            });
+        }, 2500);
+    });
+    function scrolltolastmessage()
+    {
+        document.querySelectorAll("#lastmsg")[document.querySelectorAll("#lastmsg").length - 1].scrollIntoView();
+    }
+    scrolltolastmessage();
+</script>
+<style>
+    .message-input .wrap button {
+        float: right;
+        border: none;
+        width: 58px;
+        padding: 12px 0;
+        cursor: pointer;
+        background: #32465a;
+        color: #f5f5f5;
+        height: 60px;
+    }
+
+        .message-input .wrap button:hover {
+            background: #435f7a;
+        }
+
+    .message-input .wrap .textarea {
+        padding: 15px 32px 16px 8px;
+        height: 60px;
+    }
+
+    }
+
+    .message-input .wrap .textarea:focus {
+        outline: none;
+    }
+
+    .message-input {
+        width: 100%;
+        z-index: 99;
+    }
+
+        .message-input .wrap {
+            position: relative;
+        }
+
+            .message-input .wrap .textarea {
+                float: left;
+                border: none;
+                width: calc(100% - 60px);
+                padding: 15px 32px 10px 8px;
+                font-size: 0.8em;
+                color: #32465a;
+                border: 1px solid #808080;
+                border-right: none;
+            }
+
+    .messages ul li {
+        display: inline-block;
+        clear: both;
+        float: left;
+        margin: 15px 15px 5px 15px;
+        width: calc(100% - 25px);
+        font-size: 0.9em;
+    }
+
+        .messages ul li.sent img {
+            margin: 6px 8px 0 0;
+        }
+
+        .messages ul li.sent p {
+            background: #435f7a;
+            color: #f5f5f5;
+        }
+
+        .messages ul li.replies img {
+            float: right;
+            margin: 6px 0 0 8px;
+        }
+
+        .messages ul li.replies p {
+            background: #f5f5f5;
+            float: right;
+        }
+
+        .messages ul li img {
+            width: 35px;
+            border-radius: 50%;
+            float: left;
+        }
+
+        .messages ul li p {
+            display: inline-block;
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 75%;
+            line-height: 130%;
+        }
+</style>
+

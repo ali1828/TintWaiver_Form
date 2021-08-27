@@ -1,0 +1,71 @@
+﻿@model PagedList.IPagedList<UserApplication.Models.ApplicationUser>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Banned Users List";
+    Layout = "~/Views/Shared/_LayoutLogined.cshtml";
+}
+<ol class="breadcrumb">
+    <li><a href="~/Dashboard/Index">Dashboard</a></li>
+    <li class="active">Banned Users List</li>
+</ol>
+<hr />
+<h2>Banned Users List</h2>
+<hr />
+<div class="panel panel-danger">
+    <div class="panel-body">
+
+
+        <p>
+            <a href="~/Dashboard/AddUser" class="btn btn-primary"><i class="fa fa-user"></i> Add User</a>
+        </p>
+        <div style="overflow: auto;">
+            <table class="table table-bordered table-hover table-striped">
+                <tr>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        UserName
+                    </th>
+                    <th>
+                        RegistrationDate
+                    </th>
+                    <th>
+                        State
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RegistrationDate)
+                        </td>
+                        <td>
+                            <span class="label label-danger">Banned</span>
+                        </td>
+                        <td>
+                            <a href="~/Dashboard/UserDetails/@item.Id" class="btn dashbtn-circle dashbtn-warning" title="User Details"><i style="width:30px" class="fa fa-eye"></i></a>
+                            <a href="~/Dashboard/UserLogs/@item.Id" class="btn dashbtn-circle dashbtn-warning" title="User Logs"><i style="width:30px" class="fa fa-list"></i></a>
+                            <a href="~/Dashboard/UserLoginLogs/@item.Id" class="btn dashbtn-circle dashbtn-warning" title="User Logs"><i style="width:30px" class="fa fa-lock"></i></a>
+                            <a href="~/Dashboard/EditUser/@item.Id" class="btn dashbtn-circle dashbtn-warning" title="Edit User"><i style="width:30px" class="fa fa-edit"></i></a>
+                            <button onclick="DeleteUserConfirmation('@item.Id')" title="Delete User" class="btn dashbtn-circle dashbtn-danger"><i style="width:30px" class="fa fa-times"></i></button>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+            </div>
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+            @Html.PagedListPager(Model, page => Url.Action("BannedUsers",
+    new { page }))
+        </div>
+</div>

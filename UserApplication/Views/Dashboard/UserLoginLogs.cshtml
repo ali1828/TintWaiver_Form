@@ -1,0 +1,180 @@
+﻿@model PagedList.IPagedList<UserApplication.Models.LoginDetails>
+@using PagedList.Mvc;
+@using Newtonsoft.Json.Linq;
+@{
+    ViewBag.Title = "User Login Logs";
+    Layout = "~/Views/Shared/_LayoutLogined.cshtml";
+    UserApplication.Models.ApplicationDbContext db = new UserApplication.Models.ApplicationDbContext();
+}
+<ol class="breadcrumb">
+    <li><a href="~/Dashboard/Index">Dashboard</a></li>
+    <li class="active">User Login Logs</li>
+</ol>
+<hr />
+<script>
+    var m1=@Model.Where(u=>u.LoginTime.Day==1 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m2=@Model.Where(u=>u.LoginTime.Day==2 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m3=@Model.Where(u=>u.LoginTime.Day==3 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m4=@Model.Where(u=>u.LoginTime.Day==4 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m5=@Model.Where(u=>u.LoginTime.Day==5 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m6=@Model.Where(u=>u.LoginTime.Day==6 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m7=@Model.Where(u=>u.LoginTime.Day==7 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m8=@Model.Where(u=>u.LoginTime.Day==8 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m9=@Model.Where(u=>u.LoginTime.Day==9 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m10=@Model.Where(u=>u.LoginTime.Day==10 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m11=@Model.Where(u=>u.LoginTime.Day==11 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m12=@Model.Where(u=>u.LoginTime.Day==12 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m13=@Model.Where(u=>u.LoginTime.Day==13 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m14=@Model.Where(u=>u.LoginTime.Day==14 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m15=@Model.Where(u=>u.LoginTime.Day==15 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m16=@Model.Where(u=>u.LoginTime.Day==16 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m17=@Model.Where(u=>u.LoginTime.Day==17 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m18=@Model.Where(u=>u.LoginTime.Day==18 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m19=@Model.Where(u=>u.LoginTime.Day==19 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m20=@Model.Where(u=>u.LoginTime.Day==20 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m21=@Model.Where(u=>u.LoginTime.Day==21 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m22=@Model.Where(u=>u.LoginTime.Day==22 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m23=@Model.Where(u=>u.LoginTime.Day==23 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m24=@Model.Where(u=>u.LoginTime.Day==24 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m25=@Model.Where(u=>u.LoginTime.Day==25 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m26=@Model.Where(u=>u.LoginTime.Day==26 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m27=@Model.Where(u=>u.LoginTime.Day==27 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m28=@Model.Where(u=>u.LoginTime.Day==28 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m29=@Model.Where(u=>u.LoginTime.Day==29 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+    var m30=@Model.Where(u=>u.LoginTime.Day==30 && u.LoginTime.Year==DateTime.Today.Year && u.LoginTime.Month == DateTime.Today.Month).Count() ;
+</script>
+<h2>User Login Logs : @if (Model.ToList().Count > 0)
+{ <span>@Model.FirstOrDefault().user.UserName</span>}</h2>
+<hr/>
+<table class="table table-bordered table-striped table-hover">
+    <tr>
+        <th>
+            Login Time
+        </th>
+        <th>
+            IP adress
+        </th>
+        <th>
+            User Agent
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LoginTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IPadress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserAgent)
+        </td>
+        <td>
+            <button onclick="DeleteConfirmation('@item.Id')" class="btn dashbtn-circle dashbtn-danger" title="Delete This Activity"><i class="fa fa-times"></i></button>
+        </td>
+    </tr>
+}
+
+</table>
+  Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("UserLoginLogs",
+    new { page }))
+<div class="panel panel-default" style="overflow: auto;">
+    <div class="panel-heading">
+        <i class="fa fa-bar-chart-o fa-fw"></i> Logins Chart For This Month
+
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div id="Logins-Charts"></div>
+        <script>
+
+  Morris.Line({
+      element: 'Logins-Charts',
+      data: [
+        { y: '@DateTime.Today.Year-@DateTime.Today.Month-01', a: m1 },
+        { y: '@DateTime.Today.Year-@DateTime.Today.Month-02', a: m2 },
+        { y: '@DateTime.Today.Year-@DateTime.Today.Month-03', a: m3 },
+        { y: '@DateTime.Today.Year-@DateTime.Today.Month-04', a: m4 },
+        { y: '@DateTime.Today.Year-@DateTime.Today.Month-05', a: m5 },
+        { y: '@DateTime.Today.Year-@DateTime.Today.Month-06', a: m6 },
+        { y: '@DateTime.Today.Year-@DateTime.Today.Month-07', a: m7 },
+        { y: '@DateTime.Today.Year-@DateTime.Today.Month-08', a: m8 },
+        { y: '@DateTime.Today.Year-@DateTime.Today.Month-09', a: m9 },
+        { y: '@DateTime.Today.Year-@DateTime.Today.Month-10', a: m10 },
+        { y: '@DateTime.Today.Year-@DateTime.Today.Month-11', a: m11 },
+        { y: '@DateTime.Today.Year-@DateTime.Today.Month-12', a: m12 },
+        { y: '@DateTime.Today.Year-@DateTime.Today.Month-13', a: m13 },
+        { y: '@DateTime.Today.Year-@DateTime.Today.Month-14', a: m14 },
+        { y: '@DateTime.Today.Year-@DateTime.Today.Month-15', a: m15 },
+            { y: '@DateTime.Today.Year-@DateTime.Today.Month-16', a: m16 },
+            { y: '@DateTime.Today.Year-@DateTime.Today.Month-17', a: m17 },
+            { y: '@DateTime.Today.Year-@DateTime.Today.Month-18', a: m18 },
+            { y: '@DateTime.Today.Year-@DateTime.Today.Month-19', a: m19 },
+            { y: '@DateTime.Today.Year-@DateTime.Today.Month-20', a: m20 },
+            { y: '@DateTime.Today.Year-@DateTime.Today.Month-21', a: m21 },
+            { y: '@DateTime.Today.Year-@DateTime.Today.Month-22', a: m22 },
+            { y: '@DateTime.Today.Year-@DateTime.Today.Month-23', a: m23 },
+            { y: '@DateTime.Today.Year-@DateTime.Today.Month-24', a: m24 },
+            { y: '@DateTime.Today.Year-@DateTime.Today.Month-25', a: m25 },
+            { y: '@DateTime.Today.Year-@DateTime.Today.Month-26', a: m26 },
+            { y: '@DateTime.Today.Year-@DateTime.Today.Month-27', a: m27 },
+            { y: '@DateTime.Today.Year-@DateTime.Today.Month-28', a: m28 },
+            { y: '@DateTime.Today.Year-@DateTime.Today.Month-29', a: m29 },
+            { y: '@DateTime.Today.Year-@DateTime.Today.Month-30', a: m30 },
+      ],
+      xkey: 'y',
+      ykeys: ['a'],
+      labels: ['Logins']
+  });
+        </script>
+    </div>
+    <!-- /.panel-body -->
+</div>
+<div class="panel panel-default" style="overflow: auto;">
+    <div class="panel-heading">
+        <i class="fa fa-bar-chart-o fa-fw"></i> Browsers Chart
+    </div>
+    <!-- /.panel-heading -->
+    
+    <div class="panel-body">
+        <div id="useragent-Charts"></div>
+        @{
+
+            var browsers = Model.Select(s => s.UserAgent).Distinct();
+            int totalcount = Model.ToList().Count();
+            List<int> browsercount = new List<int>();
+            foreach (var browser in browsers.ToList())
+            {
+                int getcount = Model.ToList().Where(u => u.UserAgent == browser).Count();
+                int count = getcount * 100 / totalcount;
+                browsercount.Add(count);
+            }
+         }
+        <script>
+            var datas = @Html.Raw(@JArray.FromObject(browsers).ToString(Newtonsoft.Json.Formatting.None));
+            var datass =@JArray.FromObject(browsercount).ToString(Newtonsoft.Json.Formatting.None);
+            var myArray = [];
+            for (var z =0 ; z < @browsers.Count(); z++) {
+                myArray.push({'label':datas[z],value:datass[z]});
+            }
+            Morris.Donut({
+                element: 'useragent-Charts',
+                data: myArray
+            });
+        </script>
+    </div>
+    <!-- /.panel-body -->
+</div>
+<script>
+        function DeleteConfirmation(id)
+     {
+    var r = confirm("Are you sure to delete this login log ?");
+    if (r == true) {
+        window.location.href = '@Url.Action("DeleteLoginLogs/")' + id;
+    }
+    }
+</script>

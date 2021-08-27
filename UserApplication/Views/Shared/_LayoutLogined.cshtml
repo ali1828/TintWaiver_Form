@@ -1,0 +1,377 @@
+﻿
+
+@using Microsoft.AspNet.Identity
+@{
+    UserApplication.Models.ApplicationDbContext db = new UserApplication.Models.ApplicationDbContext();
+    var userid = User.Identity.GetUserId();
+    var notifications = db.Notifications.Where(n => n.NotificationUser == userid).OrderByDescending(n => n.Time).ToList().Take(5);
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@ViewBag.Title - Advance User Managment</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <!-- MetisMenu CSS -->
+    <link href="~/css/metisMenu.min.css" rel="stylesheet">
+    <!-- Timeline CSS -->
+    <link href="~/css/timeline.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="~/css/startmin.css" rel="stylesheet">
+    <!-- Morris Charts CSS -->
+    <link href="~/css/morris.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- jQuery -->
+    <script src="~/js/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/js/bootstrap.min.js"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="~/js/metisMenu.min.js"></script>
+    <!-- Morris Charts JavaScript -->
+    <script src="~/js/raphael.min.js"></script>
+    <script src="~/js/morris.min.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="~/js/startmin.js"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .dashbtn-danger {
+
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+
+}
+        .padtop {
+        padding-top:20px;
+        }
+        .dashbtn-circle {
+
+    width: 30px;
+    height: 30px;
+    padding: 6px 0;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.428571429;
+
+}
+        .dashbtn-warning {
+
+    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
+
+}
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">USerApplication</a>
+            </div>
+           
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            <div class="navbar-collapse collapse">
+    <!-- Top Navigation: Left Menu -->
+    <ul class="headnav nav navbar-nav navbar-left navbar-top-links" role="navigation">
+        <li><a href="~/Home/Index">Home</a></li>
+        <li><a href="~/Home/About">About</a></li>
+        <li><a href="~/Home/Contact">Support</a></li>
+    </ul>
+    <!-- Top Navigation: Right Menu -->
+                <ul class="headnav nav navbar-right navbar-top-links">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+
+                            @{
+                                if (notifications.Where(n => n.Viewed == false).Count() > 0)
+                                {
+                                    <script>
+                                        document.getElementById("notificationsound").play();
+                                    </script>
+                                    <span id="notifcount" class="badge">@notifications.Where(n => n.Viewed == false).Count()</span>
+                                }
+                                else
+                                {
+                                    <span id="notifcount" class="badge" style="display:none;"></span>
+                                }
+                            }
+                            <i class="fa fa-bell fa-fw"></i> <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu dropdown-alerts" id="AllNotification" style="width:500px">
+
+                            @foreach (var notification in notifications)
+                            {
+                                <li style="@if (notification.Viewed == false) {@Html.Raw("background:#dedede;");} ">
+
+                                    <a href="@if (notification.Type == "message") {@Html.Raw("/Messages/Index"); }">
+                                        <div>
+                                            <i class="fa fa-comment fa-fw"></i> @notification.NotificationMessage
+                                            <span class="pull-right text-muted small">
+                                                @if (notification.Time.Year == DateTime.Now.Year && notification.Time.Month == DateTime.Now.Month && notification.Time.Day == DateTime.Now.Day)
+                                            {
+                                                var elapsedminute = DateTime.Now - notification.Time;
+                                                if (elapsedminute.TotalHours >= 1)
+                                                {
+                                                    <span>@elapsedminute Hours ago</span>
+                                                }
+                                                else
+                                                {
+                                                    if (elapsedminute.TotalMinutes.ToString("0") == "0")
+                                                    {
+                                                        if (elapsedminute.TotalSeconds.ToString("0") == "0")
+                                                        {
+                                                            <span>Just Now</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@elapsedminute.TotalSeconds.ToString("0") secondes ago</span>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+
+                                                        <span>@elapsedminute.TotalMinutes.ToString("0") minutes ago</span>}
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (notification.Time.Year == DateTime.Now.Year)
+                                                {
+                                                    <span>@notification.Time.Day @notification.Time.ToString("MMMM") at @notification.Time.Hour.ToString("00"):@notification.Time.Minute.ToString("00")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>@notification.Time</span>
+                                                }
+                                            }
+                                        </span>
+                                    </div>
+                                </a>
+                            </li>
+                            }
+                            <li class="divider"></li>
+                            <li>
+                                <a class="text-center" href="~/Notifications">
+                                    <strong>See All Alerts</strong>
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-user fa-fw"></i> @User.Identity.GetUserName() <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+
+
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li>
+                                    <a href="/Dashboard/UserDetails/@User.Identity.GetUserId()"><i class="fa fa-user fa-fw"></i> Admin Profile</a>
+                                </li>
+                                <li>
+                                    <a href="/Dashboard/UserLoginLogs/@User.Identity.GetUserId()"><i class="fa fa-user fa-fw"></i> Admin Logins Logs</a>
+                                </li>
+                                <li>
+                                    <a href="/Dashboard/UserLogs/@User.Identity.GetUserId()"><i class="fa fa-user fa-fw"></i> Admin Activity Logs</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a href="/Users/UserDetails"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                                </li>
+                                <li>
+                                <a href="/Users/EditProfile"><i class="fa fa-pencil-square-o fa-fw"></i> Edit Profile</a>
+                        </li>
+                            }
+                            <li>
+                                <a href="/Manage/ChangePassword"><i class="fa fa-lock fa-fw"></i> Change Password</a>
+                            </li>
+                            <li class="divider"></li>
+                            <style>
+                                .linkform li a {
+                                    display: block;
+                                    padding: 3px 20px;
+                                    clear: both;
+                                    font-weight: 400;
+                                    line-height: 1.42857143;
+                                    color: #333;
+                                    white-space: nowrap;
+                                    text-decoration: none;
+                                }
+                            </style>
+                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "linkform" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <li>
+                                    <a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                                </li>
+                            }
+                        </ul>
+        </li>
+    </ul>
+    <!-- Sidebar -->
+    <div class="navbar-default sidebar">
+        <div class="sidebar-nav">
+            <ul class="nav" id="side-menu">
+                
+               @if (User.IsInRole("Admin"))
+               {
+                <li>
+                    <a href="~/Dashboard/Index"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                </li>
+                <li>
+                    <a href="~/Dashboard/AllUsers"><i class="fa fa-users fa-fw"></i> Users</a>
+                </li>
+                <li>
+                    <a href="~/Roles/Index"><i class="fa fa-user fa-fw"></i> Roles</a>
+                </li>
+               }
+               else
+               {
+                <li>
+                    <a href="~/Users/Index"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                </li>
+               }
+                <li>
+                    <a href="~/Messages/Index"><i class="fa fa-envelope-o fa-fw"></i>
+                    @if (db.Messages.Where(u => u.To == userid && u.Vu == false).Count() > 0)
+            {
+                        <b>Messages <span class="badge">@db.Messages.Where(u => u.To == userid && u.Vu == false).Count()</span></b>
+                    }
+                    else
+                    {
+                        <span>Messages</span>
+                    }</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+        </nav>
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div class="container-fluid" style="padding-top: 40px;">
+
+                        @RenderBody()
+          
+                <!-- ... Your content goes here ... -->
+            </div>
+        </div>
+    </div>
+ 
+    <style>
+        .navbar {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .navbar-header {
+            color: #fff;
+        }
+        
+          ul.headnav li a {
+            color: #fff!important;
+            transition: all .5s;
+        }
+
+            ul.headnav li a:hover {
+                background: rgb(242, 120, 75)!important;
+                color: #fff!important;
+                transition: all .5s;
+            }
+            ul.dropdown-menu li a {
+        color:#000!important;
+        }
+        .navbar-brand {
+            text-transform: capitalize;
+            color: #fff;
+            position: relative;
+            padding-left: 16px;
+        }
+
+            .navbar-brand:hover {
+                color: #fff;
+            }
+
+            .navbar-brand::before {
+                position: absolute;
+                left: 2px;
+                top: 19px;
+                width: 10px;
+                height: 10px;
+                content: "";
+                border-radius: 100%;
+                background: #F2784B;
+            }
+    </style>
+    <audio id="notificationsound">
+        <source src="~/Sounds/Notification.ogg" type="audio/ogg">
+    </audio>
+    <div class="alert alert-info alert-dismissible" style="display:none;position:Fixed;top:80px;right:10px;" id="notifdiv">
+        <a href="#" class="close" onclick="document.getElementById('notifdiv').style = 'display:none;position:Fixed;top:80px;right:10px;';">&times;</a>
+        <strong>Info!</strong> You Have New notification.
+    </div>
+    @if (notifications.Where(n => n.Viewed == false).Count() > 0)
+    {
+   
+    <script>
+        document.getElementById('notifdiv').style = 'display:block;position:Fixed;top:80px;right:10px;';
+                            document.getElementById("notificationsound").play();
+    </script>
+    }
+    <script>
+    $(document).ready(function(){
+        setInterval(function () {
+
+            $.get("@Url.Action("CheckNewNotification", "Notifications")", function (data) {
+                if (data.length > 4) {
+                   
+                    document.getElementById('AllNotification').innerHTML = data + document.getElementById('AllNotification').innerHTML;
+                    document.getElementById("notificationsound").play();
+                    document.getElementById('notifcount').style = 'display:inline-block';
+                    document.getElementById('notifdiv').style = 'display:block;position:Fixed;top:80px;right:10px;';
+                    document.getElementById('notifcount').innerHTML = document.querySelectorAll("#countnewnotif")[document.querySelectorAll("#countnewnotif").length - 1].innerHTML;
+                }
+            });
+        }, 5000);
+    });
+
+    </script>
+    @{
+        foreach (var n in notifications)
+        {
+            n.Viewed = true;
+            db.Entry(n).State = System.Data.Entity.EntityState.Modified;
+        }
+        db.SaveChanges();
+    }
+</body> 
+</html>
+
+        

@@ -1,0 +1,144 @@
+﻿@model UserApplication.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "User Details";
+    Layout = "~/Views/Shared/_LayoutLogined.cshtml";
+}
+<ol class="breadcrumb">
+    <li><a href="~/Users/Index">Dashboard</a></li>
+    <li class="active">User Details</li>
+</ol>
+<hr />
+<h2>User Details</h2>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-body">
+
+                <div class="box box-info">
+
+                    <div class="box-body">
+                        <div class="col-sm-6">
+                            <div align="center">
+                                @if (Model.Profile == null)
+                                {
+                                    <img alt="User Pic" src="/UsersProfile/profile.png" id="profile-image1" class="img-circle img-responsive">
+                                }
+                                else
+                                {
+                                    <img alt="User Pic" src="/UsersProfile/@Model.Profile" id="profile-image1" class="img-circle img-responsive">
+                                }
+
+                                <div style="color:#999;"></div>
+
+
+
+                            </div>
+
+                            <br>
+
+                            <!-- /input-group -->
+                        </div>
+                        <div class="col-sm-6">
+                            <h4 style="color:#00b1b1;">
+                                @if (Model.FullName == "" || Model.FullName == null)
+                            { <span>@Model.UserName</span>}
+                            else
+                            { <span>@Model.FullName</span>}
+                        </h4>
+                        <span><p>User</p></span>
+                    </div>
+                    <div class="clearfix"></div>
+                    <hr style="margin:5px 0 5px 0;">
+
+
+                    <div class="col-sm-5 col-xs-6 tital ">UserName:</div><div class="col-sm-7 col-xs-6 ">@Model.UserName</div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+                    <div class="col-sm-5 col-xs-6 tital ">Email:</div><div class="col-sm-7"> @Model.Email</div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+                    <div class="col-sm-5 col-xs-6 tital ">FullName:</div><div class="col-sm-7"> @Model.FullName</div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+                    <div class="col-sm-5 col-xs-6 tital ">Date Of Joining:</div><div class="col-sm-7">@Model.RegistrationDate.ToShortDateString()</div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+                    <div class="col-sm-5 col-xs-6 tital ">Date Of Birth:</div><div class="col-sm-7">@Model.Birthday</div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+                    <div class="col-sm-5 col-xs-6 tital ">Phone Number:</div><div class="col-sm-7">@Model.PhoneNumber</div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+                    <div class="col-sm-5 col-xs-6 tital ">Country:</div><div class="col-sm-7">@Model.Country</div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+                    <div class="col-sm-5 col-xs-6 tital ">Adress:</div><div class="col-sm-7">@Model.Adress</div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+                    <div class="col-sm-5 col-xs-6 tital ">Facebook:</div><div class="col-sm-7">@Model.Facebook</div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+                    <div class="col-sm-5 col-xs-6 tital ">Twitter:</div><div class="col-sm-7">@Model.Twitter</div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+                    <div class="col-sm-5 col-xs-6 tital ">Skype:</div><div class="col-sm-7">@Model.Skype</div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+                    <div class="col-sm-5 col-xs-6 tital ">State:</div><div class="col-sm-7">
+                        @if (Model.Banned)
+                    {
+                        <span class="label label-danger">Banned</span>
+                    }
+                    else if (!Model.EmailConfirmed)
+                    {
+                        <span class="label label-warning">Unconfirmed</span>
+                    }
+                    else
+                    {
+                        <span class="label label-success">Active</span>
+                    }
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <p style="padding-top: 22px;">
+                <a href="~/Users/EditProfile" class="btn btn-success">Edit My Profile</a>
+            </p>
+            <!-- /.box -->
+        </div>
+
+
+    </div>
+</div>
+</div>
+<style>
+    input.hidden {
+        position: absolute;
+        left: -9999px;
+    }
+
+    #profile-image1 {
+        width: 100px;
+        height: 100px;
+        border: 2px solid #03b1ce;
+    }
+
+    .tital {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .bot-border {
+        border-bottom: 1px #f8f8f8 solid;
+        margin: 5px 0 5px 0;
+    }
+</style>
+
+
+
+
+
+
+
+</div>

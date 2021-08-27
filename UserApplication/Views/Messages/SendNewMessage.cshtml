@@ -1,0 +1,68 @@
+﻿@model IEnumerable<UserApplication.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Send New Message";
+    Layout = "~/Views/Shared/_LayoutLogined.cshtml";
+}
+<ol class="breadcrumb">
+    @if (User.IsInRole("Admin"))
+    {
+        <li><a href="~/Dashboard/Index">Dashboard</a></li>
+    }
+    else
+    {
+        <li><a href="~/Users/Index">Dashboard</a></li>
+
+    }    <li><a href="~/Messages/Index">Messages</a></li>
+    <li class="active">Send Message</li>
+</ol>
+<hr />
+<h2>Send New Message</h2>
+<hr/>
+@using (Html.BeginForm())
+{
+    <p>
+        Find by Username: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+
+<table class="table table-bordered table-hover table-striped">
+    <tr>
+        <th>
+            
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @if (item.Profile != null)
+            {
+            <img src="~/UsersProfile/@item.Profile" class="img-circle img-responsive"  style="width: 50px;height: 50px;"/>
+            }
+            else
+            {
+                <img src="~/UsersProfile/profile.png" class="img-circle img-responsive" style="width: 50px;height: 50px;"/>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            <a href="~/Messages/ChatBox/@item.Id" class="btn dashbtn-circle dashbtn-warning" title="Send Message"><i style="width:30px" class="fa fa-comment"></i></a>
+        </td>
+    </tr>
+}
+
+</table>

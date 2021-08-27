@@ -1,0 +1,64 @@
+﻿@model PagedList.IPagedList<UserApplication.Models.Activity>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "UserLogs";
+    Layout = "~/Views/Shared/_LayoutLogined.cshtml";
+}
+<ol class="breadcrumb">
+    <li><a href="~/Dashboard/Index">Dashboard</a></li>
+    <li class="active">User Logs</li>
+</ol>
+<hr />
+<h2>User Logs : @if (Model.ToList().Count>0) { <span>@Model.FirstOrDefault().user.UserName</span>}</h2>
+<hr/>
+<table class="table table-bordered table-striped table-hover">
+    <tr>
+        <th>
+            IP
+        </th>
+        <th>
+            Agent
+        </th>
+        <th>
+            Action
+        </th>
+        <th>
+            Time
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IPAdress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Agent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Message)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Time)
+        </td>
+        <td>
+            <button onclick="DeleteConfirmation('@item.Id')" class="btn dashbtn-circle dashbtn-danger" title="Delete This Activity"><i class="fa fa-times"></i></button>
+        </td>
+    </tr>
+}
+</table>
+
+ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("UserLogs",
+    new { page }))
+<script>
+        function DeleteConfirmation(id)
+     {
+    var r = confirm("Are you sure to delete this activity ?");
+    if (r == true) {
+        window.location.href = '@Url.Action("DeleteActivity/")' + id;
+    }
+    }
+</script>

@@ -1,0 +1,104 @@
+﻿@model IEnumerable<string>
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Messages List";
+    Layout = "~/Views/Shared/_LayoutLogined.cshtml";
+    UserApplication.Models.ApplicationDbContext db = new UserApplication.Models.ApplicationDbContext();
+    var userid = User.Identity.GetUserId();
+}
+<ol class="breadcrumb">
+    @if (User.IsInRole("Admin"))
+    {
+        <li><a href="~/Dashboard/Index">Dashboard</a></li>
+    }
+    else
+    {
+        <li><a href="~/Users/Index">Dashboard</a></li>
+
+    }    <li class="active">Messages List</li>
+</ol>
+<hr />
+<h2>Messages List</h2>
+<hr/>
+<p>
+    <a href="~/Messages/SendNewMessage" class="btn btn-primary"><i class='fa fa-pencil-square-o'></i> Send new message</a>
+</p>
+<div class="text-center"><span class="label label-info">The sent messages will appear here after the recipient responds</span></div>
+<br/>
+<table class="table table-bordered table-striped table-hover">
+    <tr>
+        <th>
+            Username
+        </th>
+        <th>
+            Last Message
+        </th>
+        <th>
+            Date
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            
+            
+            @if (db.Messages.Where(u => u.To == userid && u.From==item && u.Vu == false).Count() > 0)
+            {
+                <b>@db.Users.Where(u => u.Id == item).FirstOrDefault().UserName <span class="badge">@db.Messages.Where(u => u.To == userid && u.From == item && u.Vu == false).Count()</span></b>
+            }
+            else
+            {
+                <span>@db.Users.Where(u => u.Id == item).FirstOrDefault().UserName</span>
+            }
+            
+        </td>
+        <td>@db.Messages.Where(u => u.To == item || u.From == item).OrderByDescending(o => o.SendTime).FirstOrDefault().MessageBody</td>
+        <td>
+        @{ var msg = db.Messages.Where(u => u.To == item || u.From == item).OrderByDescending(o => o.SendTime).FirstOrDefault().SendTime;}
+        @if (msg.Year == DateTime.Now.Year && msg.Month == DateTime.Now.Month && msg.Day == DateTime.Now.Day)
+        {
+                var elapsedminute = DateTime.Now - msg;
+                if (elapsedminute.TotalHours >= 1)
+                {
+                <span>@elapsedminute Hours ago</span>
+            }
+            else
+            {
+                if (elapsedminute.TotalMinutes.ToString("0") == "0")
+                {
+                    if (elapsedminute.TotalSeconds.ToString("0") == "0")
+                    {
+                        <span>Just Now</span>
+                    }
+                    else
+                    {
+                        <span>@elapsedminute.TotalSeconds.ToString("0") secondes ago</span>
+                    }
+
+                }
+                else
+                {
+
+                    <span>@elapsedminute.TotalMinutes.ToString("0") minutes ago</span>}
+
+            }
+        }
+        else
+        {
+            if (msg.Year == DateTime.Now.Year)
+            {
+                <span>@msg.Day @msg.ToString("MMMM") at @msg.Hour.ToString("00"):@msg.Minute.ToString("00")</span>
+            }
+            else
+            {
+                <span>@msg</span>
+            }
+        }
+        </td>
+        <td><a href="~/Messages/Chatbox/@item" class="btn dashbtn-circle dashbtn-warning"><i class="fa fa-comment"></i></a> </td>
+    </tr>
+}
+
+</table>

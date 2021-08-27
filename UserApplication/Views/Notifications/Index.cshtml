@@ -1,0 +1,143 @@
+﻿@model PagedList.IPagedList<UserApplication.Models.Notifications>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Notifications";
+    Layout = "~/Views/Shared/_LayoutLogined.cshtml";
+    UserApplication.Models.ApplicationDbContext db = new UserApplication.Models.ApplicationDbContext();
+}
+<ol class="breadcrumb">
+    @if (User.IsInRole("Admin"))
+    {
+    <li><a href="~/Dashboard/Index">Dashboard</a></li>
+    }
+    else
+    {
+        <li><a href="~/Users/Index">Dashboard</a></li>
+
+    }
+    <li class="active">Notifications</li>
+</ol>
+<hr />
+<h2>Notifications</h2>
+<hr/>
+<ul class="list-unstyled">
+    @foreach (var item in Model)
+    {
+        if (item.Viewed == false)
+        {
+        <li style="border-bottom:1px solid #d7d7d7;padding: 10px;">
+            <b>
+                <i class="fa fa-bell"></i> <a href="@if (item.Type == "message")
+            {@Html.Raw("/Messages/Index");
+            }">
+                    @Html.DisplayFor(modelItem => item.NotificationMessage) <span class="timespan">
+                                                                                @if (item.Time.Year == DateTime.Now.Year && item.Time.Month == DateTime.Now.Month && item.Time.Day == DateTime.Now.Day)
+                                                                                {
+                                                                                    var elapsedminute = DateTime.Now - item.Time;
+                                                                                    if (elapsedminute.TotalHours >= 1)
+                                                                                    {
+                                                                                        <span>@elapsedminute Hours ago</span>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        if (elapsedminute.TotalMinutes.ToString("0") == "0")
+                                                                                        {
+                                                                                            if (elapsedminute.TotalSeconds.ToString("0") == "0")
+                                                                                            {
+                                                                                                <span>Just Now</span>
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                <span>@elapsedminute.TotalSeconds.ToString("0") secondes ago</span>
+                                                                                            }
+
+                                                                                        }
+                                                                                        else
+                                                                                        {
+
+                                                                                            <span>@elapsedminute.TotalMinutes.ToString("0") minutes ago</span>}
+
+                                                                                    }
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    if (item.Time.Year == DateTime.Now.Year)
+                                                                                    {
+                                                                                        <span>@item.Time.Day @item.Time.ToString("MMMM") at @item.Time.Hour.ToString("00"):@item.Time.Minute.ToString("00")</span>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <span>@item.Time</span>
+                                                                                    }
+                                                                                }
+                </span>
+                </a>
+            </b>
+        </li>
+            item.Viewed = true;
+            db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+        }
+        else
+        {
+            <li style="border-bottom:1px solid #d7d7d7;padding: 10px;">
+                <i class="fa fa-bell"></i> <a href="@if (item.Type == "message")
+            {@Html.Raw("/Messages/Index");
+            }">
+                        @Html.DisplayFor(modelItem => item.NotificationMessage) <span class="timespan">@if (item.Time.Year == DateTime.Now.Year && item.Time.Month == DateTime.Now.Month && item.Time.Day == DateTime.Now.Day)
+                        {
+                            var elapsedminute = DateTime.Now - item.Time;
+                            if (elapsedminute.TotalHours >= 1)
+                            {
+                                <span>@elapsedminute Hours ago</span>
+                            }
+                            else
+                            {
+                                if (elapsedminute.TotalMinutes.ToString("0") == "0")
+                                {
+                                    if (elapsedminute.TotalSeconds.ToString("0") == "0")
+                                    {
+                                        <span>Just Now</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@elapsedminute.TotalSeconds.ToString("0") secondes ago</span>
+                                    }
+
+                                }
+                                else
+                                {
+
+                                    <span>@elapsedminute.TotalMinutes.ToString("0") minutes ago</span>}
+
+                            }
+                        }
+                        else
+                        {
+                            if (item.Time.Year == DateTime.Now.Year)
+                            {
+                                <span>@item.Time.Day @item.Time.ToString("MMMM") at @item.Time.Hour.ToString("00"):@item.Time.Minute.ToString("00")</span>
+                            }
+                            else
+                            {
+                                <span>@item.Time</span>
+                            }
+                        }</span>
+                    </a>
+            </li>
+        }
+        db.SaveChanges();
+
+    }
+    <style>
+        .timespan {
+        font-size:small;
+        color:#808080;
+        }
+    </style>
+</ul>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page }))
+
+

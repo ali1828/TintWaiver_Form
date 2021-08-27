@@ -1,0 +1,1267 @@
+﻿@model UserApplication.ViewModel.TintVM
+
+@{
+    ViewBag.Title = "Home";
+}
+<style>
+    #Row1Instructions {
+        background-color: lightgray;
+    }
+
+    #MainHeadings {
+        font-weight: bold;
+        text-underline-position: below;
+        font-size: 20px;
+        text-decoration: underline;
+    }
+
+    #InnerFontStyle {
+        font-weight: 500;
+        font-size: 18px;
+        margin: 5px 5px 5px 5px;
+    }
+    }
+</style>
+<div class="container-fluid">
+    <form class="form-group" method="post" asp-controller="Tint" asp-action="Home">
+        @Html.Hidden("Person.PersonId")
+        @Html.Hidden("Employer.Id")
+        @Html.Hidden("Citizen.Id")
+        @Html.Hidden("Applicant.Id")
+        @Html.Hidden("MartialStatus.Id")
+        @Html.Hidden("SelfEmployed.Id")
+        @Html.Hidden("Vehicle.Id")
+        @Html.Hidden("ImmigrationStatus.Id")
+        <div id="ExceptionDiv" class="danger">
+            @{
+                if (Model?.validationErrors?.Count() > 0)
+                {
+                    foreach (var item in Model?.validationErrors)
+                    {
+                        @item;
+                    }
+                }
+
+            }
+        </div>
+        <div>
+            <div class="form-group">
+                <div class="row" id="Row1Instructions">
+                    <div class="col-lg-2" id="MainHeadings">
+                        <span>INSTRUCTIONS:</span>
+                    </div>
+                    <div class="col-lg-10" id="InnerFontStyle">
+                        Please complete form in BLOCK CAPITALS.
+                        Failure to complete all sections and affix your signature<br /> will affect processing of the application
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row" id="Row1Instructions">
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Last Name:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Person.LastName, new { @class = "form-control" })
+                        </div>
+                        <div class="col-lg-2">
+                            <img src="..." alt="..." class="img-rounded" style="height:140px; width:140px;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            First Name:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Person.FirstName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Middle Name:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Person.MiddleName, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="row" id="Row1Instructions">
+                    <div class="row">
+                        <div class="col-lg-12" id="MainHeadings">
+                            FOR OFFICIAL USE ONLY
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-2" id="InnerFontStyle">
+                                Date:
+                            </div>
+                            <div class="col-lg-4">
+                                @*<input type="date" asp-for="Applicant.DateOfApplication" />*@
+                                @Html.TextBoxFor(m => m.Applicant.DateOfApplication, "{0:yyyy-MM-dd}", new { @style = "width:100%", type = "date" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2" id="InnerFontStyle">
+                            Form Number:
+                        </div>
+                        <div class="col-lg-8">
+                            @Html.TextBoxFor(m => m.Applicant.FormNumber, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="Row1Instructions">
+                    <label></label>
+                </div>
+            </div>
+
+            <!--Documents Required-->
+            <div class="form-group">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-lg-12" id="MainHeadings">
+                            DOCUMENTS REQUIRED
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12" id="InnerFontStyle">
+                            <ol>
+                                <li>
+                                    A copy of the Certificate of Vehicle Registration and the Certificate of
+                                    Fitness in respect of which the application for tint waiver is made.
+                                </li>
+                                <li>A copy of the last tint permit received (If applicable).</li>
+                                <li>The above mentioned Original Documents for verification.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Application Process for a tint waiver-->
+            <div class="form-group">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-lg-12" id="MainHeadings">
+                            APPLICATION PROCESS FOR A TINT WAIVER
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12" id="InnerFontStyle">
+                            The process from application to final approval or rejection for a tint waiver is as follows:
+                            <ol>
+                                <li>
+                                    Upon receipt of the application, along with documents
+                                    required, the applicant will be served with a letter that must be taken  to the
+                                    Licence Revenue Office (LRO) in order to verify the Vehicle’s Tint Density.
+                                </li>
+                                <li>Subsequent to the completion of this verification process, the Licence Revenue Office (LRO) will submit its Tint Reading to the.</li>
+                                <li>The Ministry will notify the applicant of the final decision, and if the application is approved, the applicant will be granted a TINT WAIVER PERMIT.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Important-->
+            <div class="form-group">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-lg-12" id="MainHeadings">
+                            IMPORTANT
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12" id="InnerFontStyle">
+                            The process from application to final approval or rejection for a tint waiver is as follows:
+                            <ol>
+                                <li>
+                                    Tint Waiver Permits are valid for six (6) months and should be renewed at lest one (1) week                                     before the expiry date.
+                                </li>
+                                <li>The estimated processing time for an application is three (3) to five (5) working days.</li>
+                                <li> Only vehicles with a MANUFACTURE’S TINT are eligible to be considered for a Tint Waiver.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!--A.Personal Information-->
+            <div class="form-group">
+                <div class="row" id="Row1Instructions">
+                    <div class="col-lg-12" id="MainHeadings">A. PERSONAL INFORMATION</div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Last Name:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Person.LastName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            First Name:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Person.FirstName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Middle Name:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Person.MiddleName, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Date of Birth:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Person.DateOfBirth, "{0:yyyy-MM-dd}", new { @style = "width:100%", type = "date" })
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Place of Birth:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Person.PlaceOfBirth, "{0:yyyy-MM-dd}", new { @style = "width:100%", type = "date" })
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Nationality:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Person.Nationality, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!--Citizenship By:-->
+            <div class="form-group">
+                <div class="row" style="border:1px solid black;">
+                    <div class="col-lg-12" id="MainHeadings">Citizenship By:</div>
+                    <div class="row">
+                        <div class="col-lg-1">
+                            @Html.CheckBoxFor(m => m.Citizen.Birth, new { id="CB", @class = "form-control" })
+                        </div>
+                        <div class="col-lg-1" id="InnerFontStyle">
+                            Birth
+                        </div>
+                        <div class="col-lg-1">
+                            @Html.CheckBoxFor(m => m.Citizen.Naturalization, new { id = "CN", @class = "form-control" })
+                        </div>
+                        <div class="col-lg-1" id="InnerFontStyle">
+                            Naturalization
+                        </div>
+                        <div class="col-lg-1">
+                            @Html.CheckBoxFor(m => m.Citizen.Registration, new { id = "CR", @class = "form-control" })
+                        </div>
+                        <div class="col-lg-1" id="InnerFontStyle">
+                            Registration
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1">
+                            @Html.CheckBoxFor(m => m.Citizen.Marriage, new { id = "CM", @class = "form-control" })
+                        </div>
+                        <div class="col-lg-1" id="InnerFontStyle">
+                            Marriage
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1" id="Chk1">
+                            @Html.CheckBoxFor(m => m.Citizen.DualCitizenship, new { id = "CD", @class = "form-control"})
+                        </div>
+                        <div class="col-lg-2" id="InnerFontStyle">
+                            Dual Citizenship
+                        </div>
+                        <div id="DualCitizenCheckBox">
+                            <div class="col-lg-2" id="InnerFontStyle">
+                                (Please Specify):
+                            </div>
+                            <div class="col-lg-2">
+                                @Html.TextBoxFor(m => m.Citizen.DualCitizenSpecification, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-1" id="IsDualCheck2">
+                            @Html.CheckBoxFor(m => m.Citizen.Other, new { id = "CO", @class = "form-control" })
+                        </div>
+                        <div class="col-lg-2" id="InnerFontStyle">
+                            Other
+                        </div>
+                        <div id="OtherCheckBox">
+                            <div class="col-lg-2" id="InnerFontStyle">
+                                (Please Specify):
+                            </div>
+                            <div class="col-lg-2">
+                                @Html.TextBoxFor(m => m.Citizen.OtherSpecification, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!--Sex::-->
+            <div class="form-group">
+                <div class="row" style="border:1px solid black;">
+                    <div class="col-lg-12" id="MainHeadings">Sex:</div>
+                    <div class="row">
+                        <div class="col-lg-1">
+                            @Html.CheckBoxFor(m => m.Person.Male, new { id="SexMale", @class = "form-control" })
+                        </div>
+                        <div class="col-lg-1" id="InnerFontStyle">
+                            Male
+                        </div>
+                        <div class="col-lg-1">
+                            @Html.CheckBoxFor(m => m.Person.Female, new { id = "SexFemale", @class = "form-control" })
+                        </div>
+                        <div class="col-lg-1" id="InnerFontStyle">
+                            Female
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2" id="InnerFontStyle">
+                            Ethnicity:
+                        </div>
+                        <div class="col-lg-6">
+                            @Html.TextBoxFor(m => m.Person.Ethicinity, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!--Martial Status:-->
+            <div class="form-group">
+                <div class="row" style="border:1px solid black;">
+                    <div class="col-lg-12" id="MainHeadings">Martial Status:</div>
+                    <div class="row">
+                        <div class="col-lg-1">
+                            @Html.CheckBoxFor(m => m.MartialStatus.Single, new { id="MS", @class = "form-control" })
+                        </div>
+                        <div class="col-lg-1" id="InnerFontStyle">
+                            Single
+                        </div>
+                        <div class="col-lg-1">
+                            @Html.CheckBoxFor(m => m.MartialStatus.Married, new { id="MM", @class = "form-control" })
+                        </div>
+                        <div class="col-lg-1" id="InnerFontStyle">
+                            Married
+                        </div>
+                        <div class="col-lg-1">
+                            @Html.CheckBoxFor(m => m.MartialStatus.Divorced, new { id="MD", @class = "form-control" })
+                        </div>
+                        <div class="col-lg-1" id="InnerFontStyle">
+                            Divorced
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1">
+                            @Html.CheckBoxFor(m => m.MartialStatus.Separated, new { id = "MSS", @class = "form-control" })
+                        </div>
+                        <div class="col-lg-1" id="InnerFontStyle">
+                            Separated
+                        </div>
+                        <div class="col-lg-1">
+                            @Html.CheckBoxFor(m => m.MartialStatus.Widowed, new { id = "MW", @class = "form-control" })
+                        </div>
+                        <div class="col-lg-1" id="InnerFontStyle">
+                            Widowed
+                        </div>
+                        <div class="col-lg-1">
+                            @Html.CheckBoxFor(m => m.MartialStatus.CommonLaw, new { id = "MC", @class = "form-control" })
+                        </div>
+                        <div class="col-lg-1" id="InnerFontStyle">
+                            CommonLaw
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!--Immigartion Status: (If Applicable)-->
+            <div class="form-group">
+                <div class="row" style="border:1px solid black;">
+                    <div class="col-lg-12" id="MainHeadings">Immigartion Status: (If Applicable)</div>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            @Html.CheckBoxFor(m => m.ImmigrationStatus.PermanentResident, new { id="ImgrPR", @class = "form-control" })
+                        </div>
+                        <div class="col-lg-2" id="InnerFontStyle">
+                            Permanent Resident
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            @Html.CheckBoxFor(m => m.ImmigrationStatus.VoluntaryRemigrant, new { id = "ImgrVR", @class = "form-control" })
+                        </div>
+                        <div class="col-lg-2" id="InnerFontStyle">
+                            Voluntary Remigrant
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            @Html.CheckBoxFor(m => m.ImmigrationStatus.InvoluntaryRemigrant, new { id = "ImgrIR", @class = "form-control" })
+                        </div>
+                        <div class="col-lg-2" id="InnerFontStyle">
+                            Involuntary Remigrant
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!--Address: Presetn:-->
+            <div class="form-group">
+                <div class="row" style="border:1px solid black;">
+                    <div class="row">
+                        <div class="col-lg-2" id="MainHeadings">Address: Present:</div>
+                        <div class="col-lg-8">
+                            @Html.TextBoxFor(m => m.Person.Address, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--Tel,Cell, Email-->
+            <div class="form-group">
+                <div class="row" style="border:1px solid black;">
+                    <div class="row">
+                        <div class="col-lg-2" id="InnerFontStyle">Tel No:</div>
+                        <div class="col-lg-8">
+                            @Html.TextBoxFor(m => m.Person.TelNo, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2" id="InnerFontStyle">Cell No:</div>
+                        <div class="col-lg-8">
+                            @Html.TextBoxFor(m => m.Person.CellNo, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2" id="InnerFontStyle">E-mail:</div>
+                        <div class="col-lg-8">
+                            @Html.TextBoxFor(m => m.Person.Email, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--National id..-->
+            <div class="form-group">
+                <div class="row" style="border:1px solid black;">
+                    <div class="row">
+                        <div class="col-lg-2" id="InnerFontStyle">National I.D. No.:</div>
+                        <div class="col-lg-8">
+                            @Html.TextBoxFor(m => m.Person.NationalIDNo, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2" id="InnerFontStyle">Passport No:</div>
+                        <div class="col-lg-8">
+                            @Html.TextBoxFor(m => m.Person.PassportNumber, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2" id="InnerFontStyle">TIN:</div>
+                        <div class="col-lg-8">
+                            @Html.TextBoxFor(m => m.Person.TIN, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+            <!--B. EMPLOYER INFORMATION-->
+            <div class="form-group">
+                <div class="row" id="Row1Instructions">
+                    <div class="col-lg-12" id="MainHeadings">B. EMPLOYER INFORMATION</div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Profession or Occupation:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Employer.ProfessionOrOccupation, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Name Of Employer:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Employer.NameOfEmployer, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Employer Address:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Employer.Address, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Tel No:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Employer.TelNo, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Fax No:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Employer.FaxNo, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            E-mail:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Employer.Email, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--C. BUSINESS INFORMATION FOR SELF EMPLOYED PERSONS-->
+            <div class="form-group">
+                <div class="row" id="Row1Instructions">
+                    <div class="col-lg-12" id="MainHeadings">C. BUSINESS INFORMATION FOR SELF EMPLOYED PERSONS</div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Type of Business:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.SelfEmployed.TypeOfBusiness, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Name Of Business:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.SelfEmployed.NameOfBusiness, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Address:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.SelfEmployed.Address, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Tel No:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.SelfEmployed.TelNo, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Fax No:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.SelfEmployed.FaxNo, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            E-mail:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.SelfEmployed.Email, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+            <!--D. VEHICLE INFORMATION-->
+            <div class="form-group">
+                <div class="row" id="Row1Instructions">
+                    <div class="col-lg-12" id="MainHeadings">D. VEHICLE INFORMATION</div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Name of Registered Owner:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Vehicle.NameofRegisteredOwner, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12" id="InnerFontStyle">
+                            (If Applicable), State the name of the person in possession of the vehicle,
+                            if the vehicle is the subject of a Hiring Agreement, a Hire Purchase Aggrement,
+                            a Sale Aggrement, A Bill of Sale, a Power of Attorney or any other relevant
+                            Agreement:
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Type of Vehicle:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Vehicle.TypeofVehicle, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Registered No:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Vehicle.RegistrationNo, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Colour:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Vehicle.Colour, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Seating Capacity:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Vehicle.SeatingCapacity, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Identification Mark:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Vehicle.IdentificationMark, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Chassis No:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Vehicle.ChassisNo, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Engine No:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Vehicle.EngineNo, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Driving Licence No:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Vehicle.DrivingLicenceNo, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Date of Expiry:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Vehicle.DLDateOfExpiry, "{0:yyyy-MM-dd}", new { @style = "width:100%", type = "date" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Motor Vehicle Licence No:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Vehicle.MotorVehicleLicenceNo, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Date of Expiry:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Vehicle.MVLDateOfExpiry, "{0:yyyy-MM-dd}", new { @style = "width:100%", type = "date" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Certificate Of Fitness No:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Vehicle.CertificateOfFitnessNo, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3" id="InnerFontStyle">
+                            Date of Expiry:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Vehicle.CertificateOfFitnessDateOfExpiry, "{0:yyyy-MM-dd}", new { @style = "width:100%", type = "date" })
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+            <!--E. OTHER:-->
+            <div class="form-group">
+                <div class="row" style="border:1px solid black;">
+                    <div class="col-lg-12" id="MainHeadings">E. OTHER:</div>
+                    <div class="row">
+                        <div class="col-lg-12" id="InnerFontStyle">
+                            Is This Your First Application:
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="col-lg-2">
+
+                                @Html.CheckBoxFor(m => m.Applicant.Yes, new { id = "chkYes",  @class = "form-control" })
+                            </div>
+                            <div class="col-lg-2" id="InnerFontStyle">
+                                Yes
+                            </div>
+                            <div class="col-lg-2">
+                                @*Html.CheckBoxFor(m => m.HaveYouApplied, htmlAttributes: new { id = "chkNo", onchange = "ModifyCheckBoxes('chkNo')", @checked = false, @class = "big-checkbox" })*@
+                                @Html.CheckBoxFor(m => m.Applicant.No, new { id = "chkNo",  @class="form-control" })
+                            </div>
+                            <div class="col-lg-2" id="InnerFontStyle">
+                                No
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="ShowHideFirstDate">
+                        <div class="col-lg-6" id="InnerFontStyle">
+                            If NO, Please state the date of the last tint waiver
+                            issued by the Ministry of Home Affairs:
+                        </div>
+                        <div class="col-lg-4">
+                            @Html.TextBoxFor(m => m.Applicant.DateOfFirstApplication, "{0:yyyy-MM-dd}", new { @style = "width:100%", type = "date" })
+                        </div>
+                    </div>
+                    <div class="row">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" style="font-size:22px" asp-action="Home">Submit</button>
+                <button type="reset" class="btn" value="Reset" style="font-size:22px">Reset</button>
+            </div>
+
+        </div>
+    </form>
+
+    <script src="~/js/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            //$('#Chk1').hide();
+
+            $('#DualCitizenCheckBox').hide();
+
+            //$('#CD').change(function () {
+
+            //    if (this.checked) {
+
+            //        $('#DualCitizenCheckBox').show();
+
+            //    }
+
+            //    else {
+
+            //        $('#DualCitizenCheckBox').hide();
+
+            //    }
+
+            //});
+
+            $('#OtherCheckBox').hide();
+
+            //$('#CO').change(function () {
+
+            //    if (this.checked) {
+
+            //        $('#OtherCheckBox').show();
+
+            //    }
+
+            //    else {
+
+            //        $('#OtherCheckBox').hide();
+
+            //    }
+
+            //});
+
+
+            $('#ShowHideFirstDate').hide();
+
+            $('#chkNo').change(function () {
+
+                if (this.checked) {
+
+                    $('#ShowHideFirstDate').show();
+                    $('#chkYes').prop('checked', false);
+
+                }
+
+                else {
+
+                    $('#ShowHideFirstDate').hide();
+                    $('#chkYes').prop('checked', true);
+
+                }
+
+            });
+
+
+            $('#chkYes').change(function () {
+
+                if (this.checked) {
+
+                    $('#ShowHideFirstDate').hide();
+                    $('#chkNo').prop('checked', false);
+
+                }
+
+                else {
+
+                    $('#ShowHideFirstDate').show();
+                    $('#chkNo').prop('checked', true);
+
+                }
+
+            });
+
+
+
+
+
+
+            $('#SexMale').change(function () {
+
+                if (this.checked) {
+                    $('#SexFemale').prop('checked', false);
+                }
+
+                else {
+                    $('#SexFemale').prop('checked', true);
+
+                }
+
+            });
+
+
+
+            $('#SexFemale').change(function () {
+
+                if (this.checked) {
+                    $('#SexMale').prop('checked', false);
+                }
+
+                else {
+                    $('#SexMale').prop('checked', true);
+
+                }
+
+            });
+
+
+            $('#ImgrPR').change(function () {
+
+                if (this.checked) {
+                    $('#ImgrIR').prop('checked', false);
+                    $('#ImgrVR').prop('checked', false);
+                }
+
+                else {
+                    $('#ImgrIR').prop('checked', false);
+                    $('#ImgrVR').prop('checked', true);
+
+                }
+
+            });
+
+
+            $('#ImgrIR').change(function () {
+
+                if (this.checked) {
+                    $('#ImgrPR').prop('checked', false);
+                    $('#ImgrVR').prop('checked', false);
+                }
+
+                else {
+                    $('#ImgrPR').prop('checked', true);
+                    $('#ImgrVR').prop('checked', false);
+
+                }
+
+            });
+
+
+            $('#ImgrVR').change(function () {
+
+                if (this.checked) {
+                    $('#ImgrPR').prop('checked', false);
+                    $('#ImgrIR').prop('checked', false);
+                }
+
+                else {
+                    $('#ImgrPR').prop('checked', false);
+                    $('#ImgrIR').prop('checked', true);
+
+                }
+
+            });
+
+
+
+
+            $('#MS').change(function () {
+
+                if (this.checked) {
+                    $('#MM').prop('checked', false);
+                    $('#MD').prop('checked', false);
+                    $('#MSS').prop('checked', false);
+                    $('#MW').prop('checked', false);
+                    $('#MC').prop('checked', false);
+                }
+
+                else {
+                    $('#MM').prop('checked', true);
+                    $('#MD').prop('checked', false);
+                    $('#MS').prop('checked', false);
+                    $('#MW').prop('checked', false);
+                    $('#MC').prop('checked', false);
+
+                }
+
+            });
+
+            $('#MM').change(function () {
+
+                if (this.checked) {
+                    $('#MSS').prop('checked', false);
+                    $('#MD').prop('checked', false);
+                    $('#MS').prop('checked', false);
+                    $('#MW').prop('checked', false);
+                    $('#MC').prop('checked', false);
+                }
+
+                else {
+                    $('#MSS').prop('checked', false);
+                    $('#MD').prop('checked', false);
+                    $('#MS').prop('checked', true);
+                    $('#MW').prop('checked', false);
+                    $('#MC').prop('checked', false);
+
+                }
+
+            });
+
+            $('#MSS').change(function () {
+
+                if (this.checked) {
+                    $('#MS').prop('checked', false);
+                    $('#MD').prop('checked', false);
+                    $('#MM').prop('checked', false);
+                    $('#MW').prop('checked', false);
+                    $('#MC').prop('checked', false);
+                }
+
+                else {
+                    $('#MM').prop('checked', true);
+                    $('#MD').prop('checked', false);
+                    $('#MS').prop('checked', false);
+                    $('#MW').prop('checked', false);
+                    $('#MC').prop('checked', false);
+
+                }
+
+            });
+
+
+
+            $('#MD').change(function () {
+
+                if (this.checked) {
+                    $('#MS').prop('checked', false);
+                    $('#MSS').prop('checked', false);
+                    $('#MM').prop('checked', false);
+                    $('#MW').prop('checked', false);
+                    $('#MC').prop('checked', false);
+                }
+
+                else {
+                    $('#MM').prop('checked', true);
+                    $('#MSS').prop('checked', false);
+                    $('#MS').prop('checked', false);
+                    $('#MW').prop('checked', false);
+                    $('#MC').prop('checked', false);
+
+                }
+
+            });
+
+
+            $('#MW').change(function () {
+
+                if (this.checked) {
+                    $('#MS').prop('checked', false);
+                    $('#MSS').prop('checked', false);
+                    $('#MM').prop('checked', false);
+                    $('#MD').prop('checked', false);
+                    $('#MC').prop('checked', false);
+                }
+
+                else {
+                    $('#MM').prop('checked', true);
+                    $('#MSS').prop('checked', false);
+                    $('#MS').prop('checked', false);
+                    $('#MD').prop('checked', false);
+                    $('#MC').prop('checked', false);
+
+                }
+
+            });
+
+            $('#MC').change(function () {
+
+                if (this.checked) {
+                    $('#MS').prop('checked', false);
+                    $('#MSS').prop('checked', false);
+                    $('#MM').prop('checked', false);
+                    $('#MD').prop('checked', false);
+                    $('#MW').prop('checked', false);
+                }
+
+                else {
+                    $('#MM').prop('checked', true);
+                    $('#MSS').prop('checked', false);
+                    $('#MS').prop('checked', false);
+                    $('#MD').prop('checked', false);
+                    $('#MW').prop('checked', false);
+
+                }
+
+            });
+
+
+
+
+            ////Citizenship By:
+
+            $('#CB').change(function () {
+
+                if (this.checked) {
+                    $('#CN').prop('checked', false);
+                    $('#CR').prop('checked', false);
+                    $('#CM').prop('checked', false);
+                    $('#CD').prop('checked', false);
+                    $('#CO').prop('checked', false);
+                    $('#DualCitizenCheckBox').hide();
+                    $('#OtherCheckBox').hide();
+                }
+
+                else {
+                    $('#CN').prop('checked', true);
+                    $('#CR').prop('checked', false);
+                    $('#CM').prop('checked', false);
+                    $('#CD').prop('checked', false);
+                    $('#CO').prop('checked', false);
+                    $('#DualCitizenCheckBox').hide();
+                    $('#OtherCheckBox').hide();
+                }
+
+            });
+
+            $('#CN').change(function () {
+
+                if (this.checked) {
+                    $('#CB').prop('checked', false);
+                    $('#CR').prop('checked', false);
+                    $('#CM').prop('checked', false);
+                    $('#CD').prop('checked', false);
+                    $('#CO').prop('checked', false);
+                    $('#DualCitizenCheckBox').hide();
+                    $('#OtherCheckBox').hide();
+                }
+
+                else {
+                    $('#CB').prop('checked', true);
+                    $('#CR').prop('checked', false);
+                    $('#CM').prop('checked', false);
+                    $('#CD').prop('checked', false);
+                    $('#CO').prop('checked', false);
+
+                }
+
+            });
+
+            $('#CR').change(function () {
+
+                if (this.checked) {
+                    $('#CB').prop('checked', false);
+                    $('#CN').prop('checked', false);
+                    $('#CM').prop('checked', false);
+                    $('#CD').prop('checked', false);
+                    $('#CO').prop('checked', false);
+                    $('#DualCitizenCheckBox').hide();
+                    $('#OtherCheckBox').hide();
+                }
+
+                else {
+                    $('#CB').prop('checked', true);
+                    $('#CN').prop('checked', false);
+                    $('#CM').prop('checked', false);
+                    $('#CD').prop('checked', false);
+                    $('#CO').prop('checked', false);
+
+                }
+
+            });
+
+
+
+            $('#CM').change(function () {
+
+                if (this.checked) {
+                    $('#CB').prop('checked', false);
+                    $('#CR').prop('checked', false);
+                    $('#CN').prop('checked', false);
+                    $('#CD').prop('checked', false);
+                    $('#CO').prop('checked', false);
+                    $('#DualCitizenCheckBox').hide();
+                    $('#OtherCheckBox').hide();
+                }
+
+                else {
+                    $('#CB').prop('checked', true);
+                    $('#CR').prop('checked', false);
+                    $('#CN').prop('checked', false);
+                    $('#CD').prop('checked', false);
+                    $('#CO').prop('checked', false);
+
+                }
+
+            });
+
+
+            $('#CD').change(function () {
+
+                if (this.checked) {
+                    $('#CB').prop('checked', false);
+                    $('#CR').prop('checked', false);
+                    $('#CN').prop('checked', false);
+                    $('#CM').prop('checked', false);
+                    $('#CO').prop('checked', false);
+                    $('#DualCitizenCheckBox').show();
+                    $('#OtherCheckBox').hide();
+                }
+
+                else {
+                    $('#CB').prop('checked', true);
+                    $('#CR').prop('checked', false);
+                    $('#CN').prop('checked', false);
+                    $('#CM').prop('checked', false);
+                    $('#CO').prop('checked', false);
+                    $('#DualCitizenCheckBox').hide();
+
+                }
+
+            });
+
+            $('#CO').change(function () {
+
+                if (this.checked) {
+                    $('#CB').prop('checked', false);
+                    $('#CR').prop('checked', false);
+                    $('#CN').prop('checked', false);
+                    $('#CM').prop('checked', false);
+                    $('#CD').prop('checked', false);
+                    $('#OtherCheckBox').show();
+                    $('#DualCitizenCheckBox').hide();
+                }
+
+                else {
+                    $('#CB').prop('checked', true);
+                    $('#CR').prop('checked', false);
+                    $('#CN').prop('checked', false);
+                    $('#CM').prop('checked', false);
+                    $('#CD').prop('checked', false);
+                    $('#OtherCheckBox').hide();
+
+                }
+
+            });
+
+
+
+
+
+        });
+       
+    </script>
+</div>
+
+
+
+
+
