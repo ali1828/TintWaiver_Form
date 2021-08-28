@@ -26,6 +26,18 @@ namespace UserApplication
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/css/NewStyles").Include(
+                "~/css/NewStyles/style.css"
+                ));
+
+            bundles.Add(new ScriptBundle("~/js/NewJs").Include(
+                "~/js/NewJs/jquer-3.3.1.min.js",
+                "~/js/NewJs/jquery.steps.js",
+                "~/js/NewJs/main.js"
+                ));
+
+          
         }
     }
 }
